@@ -7,15 +7,24 @@ LOG_FILE=/dev/null
 color_print "Build app"
 cd $SANDBOX
 git clone $REPO app
+tar -cJf app.tar.xz app
+
+color_print "Integrate app"
+mkdir integration
+tar -xJf app.tar.xz -C integration
+
+color_print "Test app"
+mkdir test
+tar -xJf app.tar.xz -C test
 
 color_print "Deploy app"
 mkdir backup
 mv /var/www/* backup
 mv /usr/lib/cgi-bin/* backup
 
-cd app/
-cp www/* /var/www/
-cp cgi-bin/* /usr/lib/cgi-bin/
+cd test/
+cp app/www/* /var/www/
+cp app/cgi-bin/* /usr/lib/cgi-bin/
 chmod a+x /usr/lib/cgi-bin/*
 
 color_print "Start services"
