@@ -6,14 +6,16 @@ LOG_FILE=/dev/null
 
 color_print "Build app"
 cd $SANDBOX
-git clone https://github.com/FSlyne/NCIRL.git
-cd NCIRL/
+git clone $REPO app
 
 color_print "Deploy app"
-rm -rf /var/www/*
-rm -rf /usr/lib/cgi-bin/*
-cp Apache/www/* /var/www/
-cp Apache/cgi-bin/* /usr/lib/cgi-bin/
+mkdir backup
+mv /var/www/* backup
+mv /usr/lib/cgi-bin/* backup
+
+cd app/
+cp www/* /var/www/
+cp cgi-bin/* /usr/lib/cgi-bin/
 chmod a+x /usr/lib/cgi-bin/*
 
 color_print "Start services"

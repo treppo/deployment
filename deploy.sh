@@ -6,6 +6,7 @@ set -e # enable checking of all commands by the shell
 . ./scripts/lib.sh
 
 CLEAN=0
+SANDBOX=/tmp/sandbox_$RANDOM
 
 while test $# -gt 0; do
   case "$1" in
@@ -19,6 +20,7 @@ while test $# -gt 0; do
       shift
       ;;
     *)
+      REPO=$1
       break
       ;;
   esac
@@ -32,18 +34,17 @@ while test -z $MYSQL_PW; do
   fi
 done
 
-SANDBOX=/tmp/sandbox_$RANDOM
 color_print "Using sandbox $SANDBOX"
 ssh -t -i $IDENTITY_FILE -p $SERVER_PORT $SERVER_USER@$SERVER_ADDRESS '
   mkdir '"'$SANDBOX'"'
 '
 
-color_print "Clean install server software"
 scp -Cr -i $IDENTITY_FILE -P $SERVER_PORT scripts $SERVER_USER@$SERVER_ADDRESS:$SANDBOX
 ssh -t -i $IDENTITY_FILE -p $SERVER_PORT $SERVER_USER@$SERVER_ADDRESS '
   export MYSQL_PASSWORD='"'$MYSQL_PW'"'
   export SANDBOX='"'$SANDBOX'"'
   export CLEAN='"'$CLEAN'"'
+  export REPO='"'$REPO'"'
 
   cd '"'$SANDBOX'"'/scripts
 
