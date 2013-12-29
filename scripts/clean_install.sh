@@ -1,5 +1,5 @@
 #!/bin/bash
-. ./config.sh
+. ./mysql_config.sh
 . ./lib.sh
 
 SANDBOX=sandbox_$RANDOM
@@ -21,6 +21,9 @@ apt-get -q -y remove mysql-server mysql-client > $LOG_FILE
 echo "mysql-server mysql-server/root_password password $MYSQL_PASSWORD" | debconf-set-selections
 echo "mysql-server mysql-server/root_password_again password $MYSQL_PASSWORD" | debconf-set-selections
 apt-get -q -y install mysql-server mysql-client > $LOG_FILE
+
+color_print "Install git"
+hash git 2>/dev/null || apt-get -q -y install git > $LOG_FILE
 
 color_print "deploy app"
 cd /tmp

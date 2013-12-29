@@ -1,7 +1,0 @@
-#!/bin/bash
-
-SERVER_PORT=2222
-SERVER_IP=127.0.0.1
-SERVER_USER=root
-
-MYSQL_USER=root
