@@ -26,6 +26,11 @@ while test $# -gt 0; do
   esac
 done
 
+if test -z $REPO; then
+  color_print 'You need to provide a git repository'
+  exit 1
+fi
+
 while test -z $MYSQL_PW; do
   read -s -p "Please enter a password to set for the Mysql database: " MYSQL_PW
 
@@ -54,5 +59,8 @@ ssh -t -i $IDENTITY_FILE -p $SERVER_PORT $SERVER_USER@$SERVER_ADDRESS '
     sudo -E ./clean_install.sh
   fi
   sudo -E ./build.sh
+  if test $CLEAN = 1; then
+    sudo -E ./prepare_db.sh
+  fi
   sudo -E ./cleanup.sh
 '
