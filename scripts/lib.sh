@@ -13,18 +13,19 @@ function error_message {
   echo -e "\n$RED$1$END_COLOR"
 }
 
-function check_for_change {
-  local MD5SUM=$(tar c $1 | md5sum | cut -f 1 -d' ')
+function app_changed {
+  cd $1
+  local MD5SUM=$(git rev-parse HEAD)
+  cd ..
+
   local PREVMD5SUM=$(cat /tmp/md5sum 2> /dev/null || 0)
-  local FILECHANGE=0
-
-  if test $MD5SUM != $PREVMD5SUM; then
-    FILECHANGE=1
-  fi
-
   echo $MD5SUM > /tmp/md5sum
 
-  echo $FILECHANGE
+  if test $MD5SUM != $PREVMD5SUM; then
+    return 0
+  fi
+
+  return 1
 }
 
 function error_in_html {
