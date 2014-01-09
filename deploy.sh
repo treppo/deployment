@@ -31,13 +31,15 @@ if test -z $REPO; then
   exit 1
 fi
 
-while test -z $MYSQL_PW; do
-  read -s -p "Please enter a password to set for the Mysql database: " MYSQL_PW
+if test $CLEAN = 1; then
+  while test -z $MYSQL_PW; do
+    read -s -p "Please enter a password to set for the Mysql database: " MYSQL_PW
 
-  if test -z $MYSQL_PW; then
-    echo -e "\nYou need to set a password"
-  fi
-done
+    if test -z $MYSQL_PW; then
+      echo -e "\nYou need to set a password"
+    fi
+  done
+fi
 
 color_print "Using sandbox $SANDBOX"
 ssh -t -i $IDENTITY_FILE -p $SERVER_PORT $SERVER_USER@$SERVER_ADDRESS '
@@ -62,5 +64,6 @@ ssh -t -i $IDENTITY_FILE -p $SERVER_PORT $SERVER_USER@$SERVER_ADDRESS '
   if test $CLEAN = 1; then
     sudo -E ./prepare_db.sh
   fi
+  sudo -E ./start_services.sh
   sudo -E ./cleanup.sh
 '

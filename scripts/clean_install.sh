@@ -19,3 +19,6 @@ apt-get -q -y install mysql-server mysql-client mysql-common > $LOG_FILE
 
 color_print "Install git"
 hash git 2>/dev/null || apt-get -q -y install git > $LOG_FILE
+
+color_print "Install tidy"
+hash tidy 2>/dev/null || apt-get -q -y install tidy > $LOG_FILE
