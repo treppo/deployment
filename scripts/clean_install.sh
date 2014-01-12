@@ -22,3 +22,9 @@ hash git 2>/dev/null || apt-get -q -y install git > $LOG_FILE
 
 color_print "Install tidy"
 hash tidy 2>/dev/null || apt-get -q -y install tidy > $LOG_FILE
+
+color_print "Install ssmtp"
+if ! hash ssmtp 2>/dev/null; then
+  apt-get -q -y install ssmtp > $LOG_FILE
+  sudo mv ssmtp.conf /etc/ssmtp/
+fi
