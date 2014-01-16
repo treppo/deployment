@@ -37,11 +37,12 @@ tar -cf test.tar -C test www cgi-bin
 
 
 color_print "Deploy app"
-mkdir backup
-mkdir backup/www
-mkdir backup/cgi-bin
-mv /var/www/* backup/www
-mv /usr/lib/cgi-bin/* backup/cgi-bin
+mkdir -p /tmp/backup/www
+mkdir -p /tmp/backup/cgi-bin
+rm -rf /tmp/backup/www/*
+rm -rf /tmp/backup/cgi-bin/*
+mv /var/www/* /tmp/backup/www
+mv /usr/lib/cgi-bin/* /tmp/backup/cgi-bin
 
 mkdir deploy
 tar -xf test.tar -C deploy

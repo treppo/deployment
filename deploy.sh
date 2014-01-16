@@ -6,6 +6,7 @@ set -e # enable checking of all commands by the shell
 . ./scripts/lib.sh
 
 CLEAN=0
+ROLLBACK=0
 SANDBOX=/tmp/sandbox_$RANDOM
 
 while test $# -gt 0; do
@@ -19,6 +20,10 @@ while test $# -gt 0; do
       CLEAN=1
       shift
       ;;
+    rollback)
+      ROLLBACK=1
+      break
+      ;;
     *)
       REPO=$1
       break
@@ -26,7 +31,7 @@ while test $# -gt 0; do
   esac
 done
 
-if test -z $REPO; then
+if test -z $REPO && $ROLLBACK = 0; then
   color_print 'You need to provide a git repository'
   exit 1
 fi
@@ -53,6 +58,7 @@ ssh -t -i $IDENTITY_FILE -p $SERVER_PORT $SERVER_USER@$SERVER_ADDRESS '
   export CLEAN='"'$CLEAN'"'
   export REPO='"'$REPO'"'
   export LOG_FILE='"'$LOG_FILE'"'
+  export ROLLBACK='"'$ROLLBACK'"'
 
   cd '"'$SANDBOX'"'/scripts
 
@@ -61,7 +67,11 @@ ssh -t -i $IDENTITY_FILE -p $SERVER_PORT $SERVER_USER@$SERVER_ADDRESS '
   if test $CLEAN = 1; then
     sudo -E ./clean_install.sh
   fi
-  sudo -E ./build.sh
+  if test $ROLLBACK = 1; then
+    sudo -E ./rollback.sh
+  else
+    sudo -E ./build.sh
+  fi
   if test $CLEAN = 1; then
     sudo -E ./prepare_db.sh
   fi
