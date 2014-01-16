@@ -10,6 +10,8 @@ ssh -t -i $IDENTITY_FILE -p $SERVER_PORT $SERVER_USER@$SERVER_ADDRESS '
 scp -Cr -i $IDENTITY_FILE -P $SERVER_PORT scripts $SERVER_USER@$SERVER_ADDRESS:/tmp/monitoring
 
 ssh -t -i $IDENTITY_FILE -p $SERVER_PORT $SERVER_USER@$SERVER_ADDRESS '
+  export LOG_FILE='"'$LOG_FILE'"'
+
   cd /tmp/monitoring/scripts/
   sudo bash monitor.sh
   cd /

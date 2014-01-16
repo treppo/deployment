@@ -4,3 +4,4 @@ SERVER_PORT=22
 SERVER_ADDRESS="ec2-54-194-103-20.eu-west-1.compute.amazonaws.com"
 SERVER_USER=ubuntu
 IDENTITY_FILE='ams-deployment-christiantreppo.pem'
+LOG_FILE=/tmp/deployment.log

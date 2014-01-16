@@ -1,7 +1,6 @@
 #!/bin/bash
 . ./lib.sh
 
-LOG_FILE=/dev/null
 FILECHANGE=0
 ERRORCOUNT=0
 

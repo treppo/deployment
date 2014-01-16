@@ -52,6 +52,7 @@ ssh -t -i $IDENTITY_FILE -p $SERVER_PORT $SERVER_USER@$SERVER_ADDRESS '
   export SANDBOX='"'$SANDBOX'"'
   export CLEAN='"'$CLEAN'"'
   export REPO='"'$REPO'"'
+  export LOG_FILE='"'$LOG_FILE'"'
 
   cd '"'$SANDBOX'"'/scripts
 

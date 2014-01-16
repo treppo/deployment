@@ -4,12 +4,14 @@
 function color_print {
   local BLUE='\e[0;32m'
   local END_COLOR='\e[0m'
+  echo -e "\n$(date) $1" >> $LOG_FILE
   echo -e "\n$BLUE$1$END_COLOR"
 }
 
 function error_message {
   local RED='\e[0;41m'
   local END_COLOR='\e[0m'
+  echo -e "\n$(date) $1" >> $LOG_FILE
   echo -e "\n$RED$1$END_COLOR"
 }
 
