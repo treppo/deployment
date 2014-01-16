@@ -20,7 +20,7 @@ function app_changed {
   local MD5SUM=$(git rev-parse HEAD)
   cd ..
 
-  local PREVMD5SUM=$(cat /tmp/md5sum 2> /dev/null || 0)
+  local PREVMD5SUM=$(cat /tmp/md5sum 2> /dev/null || '0')
   echo $MD5SUM > /tmp/md5sum
 
   if test $MD5SUM != $PREVMD5SUM; then
